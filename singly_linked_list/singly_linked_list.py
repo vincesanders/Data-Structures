@@ -43,6 +43,11 @@ class LinkedList:
         self.size += 1
         return True
     def prepend(self, value):
+        if self.is_empty():
+            self.head = Node(value)
+            self.tail = self.head
+            self.size += 1
+            return True
         if self.head.value == None:
             self.head.value = value
             return True
