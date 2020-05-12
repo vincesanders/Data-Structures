@@ -73,7 +73,7 @@ class LinkedList:
         current_node.next = new_node
         self.size += 1
         return True
-    def remove(self, value):
+    def remove(self, value): # doesn't account for tail
         if self.is_empty():
             raise Exception("Sorry, the list is empty.")
         if self.head.value == value:
@@ -97,16 +97,6 @@ class LinkedList:
         else:
             self.head = self.head.next
         self.size -= 1
-        return value
-    def remove_tail(self):
-        if self.is_empty():
-            return None
-        value = self.tail.value
-        if self.tail == self.head:
-            self.tail = None
-            self.head = None
-        else:
-            self.tail = self.tail.prev
         return value
     def get_nth_to_last(self, n):
         if self.is_empty():

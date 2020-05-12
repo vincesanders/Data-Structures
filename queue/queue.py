@@ -25,9 +25,9 @@ class Queue: #FIFO
             self.size -= 1
             return self.storage.pop(0)
 2. Re-implement the Queue class, this time using the linked list implementation
-   as the underlying storage structure.
-   Make sure the Queue tests pass.
-   class Queue: #FIFO
+    as the underlying storage structure.
+    Make sure the Queue tests pass.
+    class Queue: #FIFO
     def __init__(self):
         self.size = 0
         self.storage = LinkedList()
@@ -46,8 +46,9 @@ class Queue: #FIFO
             self.size -= 1
             return self.storage.remove_head()
 3. What is the difference between using an array vs. a linked list when 
-   implementing a Queue?
-   The names of the methods.
+    implementing a Queue?
+    dequeue with an list is slower than with a linked list. Probably because all indexes 
+    of the remaining elements had to be shifted.
 Stretch: What if you could only use instances of your Stack class to implement the Queue?
         What would that look like? How many Stacks would you need? Try it!
 """
