@@ -15,40 +15,30 @@ class BSTNode:
         self.left = None
         self.right = None
 
-class BinarySearchTree:
-    def __init__(self, value):
-        if value is None:
-            self.root = None
-        else:
-            self.root = BSTNode(value)
-    # Insert the given value into the tree
     def insert(self, value):
-        node = self.root
-        if node is None:
-            self.root = BSTNode(value)
-            return True
-        else:
-            def search_tree(node):
-                if value < node.value:
-                    if node.left is None:
-                        node.left = BSTNode(value)
-                        return True # break out of recursion
-                    else:
-                        return search_tree(node.left)
-                elif value > node.value:
-                    if node.right is None:
-                        node.right = BSTNode(value)
-                        return True
-                    else:
-                        return search_tree(node.right)
+        node = self
+        def search_tree(node):
+            if value < node.value:
+                if node.left is None:
+                    node.left = BSTNode(value)
+                    return True # break out of recursion
                 else:
+                    return search_tree(node.left)
+            # elif value > node.value:
+            else:
+                if node.right is None:
+                    node.right = BSTNode(value)
                     return True
-            return search_tree(node)
+                else:
+                    return search_tree(node.right)
+            # else:
+            #     return True
+        return search_tree(node)
 
     # Return True if the tree contains the value
     # False if it does not
     def contains(self, target):
-        current_node = self.root
+        current_node = self
         while current_node:
             if target is current_node.value:
                 return True
@@ -60,17 +50,23 @@ class BinarySearchTree:
 
     # Return the maximum value found in the tree
     def get_max(self):
-        current_node = self.root
-        while current_node.left is not None:
-            current_node = current_node.left
+        current_node = self
+        while current_node.right is not None:
+            current_node = current_node.right
         return current_node.value
 
     # Call the function `fn` on the value of each node
     def for_each(self, fn):
-        if self.root is None:
-            return None
-        else:
-            return fn(self.root)
+        def traverse(node):
+            if node.left:
+                traverse(node.left)
+            if node.right:
+                traverse(node.right)
+            fn(node.value)
+        self.order(traverse)
+
+    def order(self, fn):
+        return fn(self)
 
     # Part 2 -----------------------
 
@@ -84,7 +80,10 @@ class BinarySearchTree:
             if node.right:
                 traverse_in_order(node.right, values)
             return values
-        in_order_list = self.for_each(traverse_in_order)
+        if node is None:
+            in_order_list = self.order(traverse_in_order)
+        else:
+            in_order_list = traverse_in_order(node) # start search from selected node
         for v in in_order_list:
             print(v)
         return in_order_list
@@ -97,7 +96,7 @@ class BinarySearchTree:
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self, node):
-        pass
+        self.in_order_print(node)
 
     # Stretch Goals -------------------------
     # Note: Research may be required
@@ -111,7 +110,7 @@ class BinarySearchTree:
             if node.right:
                 traverse_pre_order(node.right, values)
             return values
-        pre_order_list = self.for_each(traverse_pre_order)
+        pre_order_list = self.order(traverse_pre_order)
         for v in pre_order_list:
             print(v)
         return pre_order_list
@@ -125,7 +124,138 @@ class BinarySearchTree:
                 traverse_post_order(node.right, values)
             values.append(node.value)
             return values
-        post_order_list = self.for_each(traverse_post_order)
+        post_order_list = self.order(traverse_post_order)
         for v in post_order_list:
             print(v)
         return post_order_list
+
+# class BinarySearchTree:
+#     def __init__(self, value):
+#         if value is None:
+#             self.root = None
+#         else:
+#             self.root = BSTNode(value)
+    # Insert the given value into the tree
+    # def insert(self, value):
+    #     node = self.root
+    #     if node is None:
+    #         self.root = BSTNode(value)
+    #         return True
+    #     else:
+    #         def search_tree(node):
+    #             if value < node.value:
+    #                 if node.left is None:
+    #                     node.left = BSTNode(value)
+    #                     return True # break out of recursion
+    #                 else:
+    #                     return search_tree(node.left)
+    #             # elif value > node.value:
+    #             else:
+    #                 if node.right is None:
+    #                     node.right = BSTNode(value)
+    #                     return True
+    #                 else:
+    #                     return search_tree(node.right)
+    #             # else:
+    #             #     return True
+    #         return search_tree(node)
+
+    # # Return True if the tree contains the value
+    # # False if it does not
+    # def contains(self, target):
+    #     current_node = self.root
+    #     while current_node:
+    #         if target is current_node.value:
+    #             return True
+    #         elif target < current_node.value:
+    #             current_node = current_node.left
+    #         else:
+    #             current_node = current_node.right
+    #     return False
+
+    # # Return the maximum value found in the tree
+    # def get_max(self):
+    #     current_node = self.root
+    #     while current_node.right is not None:
+    #         current_node = current_node.right
+    #     return current_node.value
+
+    # # Call the function `fn` on the value of each node
+    # def for_each(self, fn):
+    #     if self.root is None:
+    #         return None
+    #     else:
+    #         def traverse(node):
+    #             if node.left:
+    #                 traverse(node.left)
+    #             fn(node)
+    #             if node.right:
+    #                 traverse(node.right)
+    #         self.order(traverse)
+
+    # def order(self, fn):
+    #     if self.root is None:
+    #         return None
+    #     else:
+    #         return fn(self.root)
+
+    # # Part 2 -----------------------
+
+    # # Print all the values in order from low to high
+    # # Hint:  Use a recursive, depth first traversal
+    # def in_order_print(self, node):
+    #     def traverse_in_order(node, values=[]):
+    #         if node.left:
+    #             traverse_in_order(node.left, values)
+    #         values.append(node.value)
+    #         if node.right:
+    #             traverse_in_order(node.right, values)
+    #         return values
+    #     if node is None:
+    #         in_order_list = self.order(traverse_in_order)
+    #     else:
+    #         in_order_list = traverse_in_order(node) # start search from selected node
+    #     for v in in_order_list:
+    #         print(v)
+    #     return in_order_list
+
+    # # Print the value of every node, starting with the given node,
+    # # in an iterative breadth first traversal
+    # def bft_print(self, node):
+    #     pass
+
+    # # Print the value of every node, starting with the given node,
+    # # in an iterative depth first traversal
+    # def dft_print(self, node):
+    #     self.in_order_print(node)
+
+    # # Stretch Goals -------------------------
+    # # Note: Research may be required
+
+    # # Print Pre-order recursive DFT
+    # def pre_order_dft(self, node):
+    #     def traverse_pre_order(node, values=[]):
+    #         values.append(node.value)
+    #         if node.left:
+    #             traverse_pre_order(node.left, values)
+    #         if node.right:
+    #             traverse_pre_order(node.right, values)
+    #         return values
+    #     pre_order_list = self.order(traverse_pre_order)
+    #     for v in pre_order_list:
+    #         print(v)
+    #     return pre_order_list
+
+    # # Print Post-order recursive DFT
+    # def post_order_dft(self, node):
+    #     def traverse_post_order(node, values=[]):
+    #         if node.left:
+    #             traverse_post_order(node.left, values)
+    #         if node.right:
+    #             traverse_post_order(node.right, values)
+    #         values.append(node.value)
+    #         return values
+    #     post_order_list = self.order(traverse_post_order)
+    #     for v in post_order_list:
+    #         print(v)
+    #     return post_order_list
