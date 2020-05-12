@@ -1,3 +1,5 @@
+from queue import Queue
+from stack import Stack
 """
 Binary search trees are a data structure that enforce an ordering over 
 the data they store. That ordering in turn makes it a lot more efficient 
@@ -73,30 +75,26 @@ class BSTNode:
     # Print all the values in order from low to high
     # Hint:  Use a recursive, depth first traversal
     def in_order_print(self, node):
-        def traverse_in_order(node, values=[]):
+        def traverse_in_order(node):
             if node.left:
-                traverse_in_order(node.left, values)
-            values.append(node.value)
+                traverse_in_order(node.left)
+            print(node.value)
             if node.right:
-                traverse_in_order(node.right, values)
-            return values
+                traverse_in_order(node.right)
         if node is None:
-            in_order_list = self.order(traverse_in_order)
+            self.order(traverse_in_order)
         else:
-            in_order_list = traverse_in_order(node) # start search from selected node
-        for v in in_order_list:
-            print(v)
-        return in_order_list
+            traverse_in_order(node) # start search from selected node
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self, node):
-        pass
+        self.level_order_bft(node)
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self, node):
-        self.in_order_print(node)
+        self.level_order_dft(node)
 
     # Stretch Goals -------------------------
     # Note: Research may be required
@@ -128,6 +126,28 @@ class BSTNode:
         for v in post_order_list:
             print(v)
         return post_order_list
+
+    def level_order_bft(self, node):
+        waiting = Queue()
+        waiting.enqueue(node)
+        while len(waiting) > 0:
+            node = waiting.dequeue()
+            print(node.value)
+            if node.left:
+                waiting.enqueue(node.left)
+            if node.right:
+                waiting.enqueue(node.right)
+
+    def level_order_dft(self, node):
+        waiting = Stack()
+        waiting.push(node)
+        while len(waiting) > 0:
+            node = waiting.pop()
+            print(node.value)
+            if node.left:
+                waiting.push(node.left)
+            if node.right:
+                waiting.push(node.right)
 
 # class BinarySearchTree:
 #     def __init__(self, value):
