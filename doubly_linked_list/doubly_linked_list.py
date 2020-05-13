@@ -119,6 +119,14 @@ class DoublyLinkedList:
     """Removes the input node from its current spot in the 
     List and inserts it as the new head node of the List."""
     def move_to_front(self, node):
+        if node is self.head:
+            return None
+        # value = node.value
+        # if node is self.tail:
+        #     self.remove_from_tail()
+        # else:
+        #     node.delete()
+        # self.add_to_head(value)
         current_node = self.head
         while current_node.next is not None:
             if current_node == node:
@@ -167,12 +175,10 @@ class DoublyLinkedList:
             return None
         elif self.length == 1:
             return self.head.value
-        current_node = self.head
+        current_node = self.head.next
         current_max = self.head.value
-        while current_node.next != None:
+        while current_node != None:
             if current_node.value > current_max:
                 current_max = current_node.value
             current_node = current_node.next
-        if current_node.value > current_max:
-            current_max = current_node.value
         return current_max
