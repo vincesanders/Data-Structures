@@ -49,6 +49,18 @@ class BSTNode:
             else:
                 current_node = current_node.right
         return False
+        # if target == self.value: #recursive solution
+        #     return True
+        # if target < self.value:
+        #     if self.left:
+        #         return self.left.contains(target)
+        #     else:
+        #         return False
+        # else:
+        #     if self.right:
+        #         return self.right.contains(target)
+        #     else:
+        #         return False
 
     # Return the maximum value found in the tree
     def get_max(self):
