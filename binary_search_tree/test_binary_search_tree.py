@@ -2,7 +2,7 @@ import unittest
 import random
 import sys
 import io
-from binary_search_tree import BinarySearchTree
+from binary_search_tree import BSTNode as BinarySearchTree
 
 
 class BinarySearchTreeTests(unittest.TestCase):
@@ -92,8 +92,7 @@ class BinarySearchTreeTests(unittest.TestCase):
         sys.stdout = io.StringIO()
         self.bst.dft_print(self.bst)
         output = sys.stdout.getvalue()
-        self.assertTrue(output == "1\n8\n5\n7\n6\n3\n4\n2\n" or
-                        output == "1\n8\n5\n3\n2\n4\n7\n6\n")
+        self.assertTrue(output == "1\n8\n5\n7\n6\n3\n4\n2\n" or output == "1\n8\n5\n3\n2\n4\n7\n6\n")
 
         sys.stdout = io.StringIO()
         self.bst.pre_order_dft(self.bst)

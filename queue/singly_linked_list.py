@@ -73,7 +73,7 @@ class LinkedList:
         current_node.next = new_node
         self.size += 1
         return True
-    def remove(self, value): # doesn't account for tail
+    def remove(self, value):
         if self.is_empty():
             raise Exception("Sorry, the list is empty.")
         if self.head.value == value:
